@@ -8,15 +8,26 @@ class AddNote extends Component {
     super(props);
       this.state = {
         name: {
-          value: ''
+          value: '',
+          touched: false
         } ,
         content: {
-          value: ''
+          value: '',
+          touched: false
         },
         folder: {
-          value: '' 
+          value: '',
+          touched: false
         }
       }
+  }
+  validateName = () => {
+    const name  = this.state.name.value.trim()
+    if(name.length===0)return 'Name cannot be empty'
+  }
+  validateContent = () => {
+    const content = this.state.content.value.trim()
+    if(content.length===0)return 'Did you forget something?'
   }
   
   handleAddNote = () => {
@@ -83,24 +94,34 @@ selectOptions = () => {
 }
 
   render() {
+    const nameError = this.validateName()
+    const contentError = this.validateContent()
     return (
       <div>
        <form
        onSubmit= {(e) =>{
         e.preventDefault();
         this.handleAddNote()} }>
+      <div className='name-group'>          
          <label htmlFor='noteName'>Name</label>
          <input type='text' id='noteName' onChange={e => this.updateName(e.target.value)}></input>
+         <p>{this.state.name.touched && nameError}</p>
+      </div>
 
-         <label htmlFor='noteContent'>Content</label>
+<div className='content-group'>        
+   <label htmlFor='noteContent'>Content</label>
          <textarea id='noteContent' onChange={e => this.updateContent(e.target.value)}></textarea>
+         <p>{this.state.content.touched && contentError}</p>
+</div>
 
-         <label htmlFor='noteFolder'>Folder</label>
+<div className='folder-group'>         
+  <label htmlFor='noteFolder'>Folder</label>
         <select id='noteFolder' onChange={e => this.updateSelect(e.target.value)}>{this.selectOptions()}</select>
-
-         
-
-         <button type='submit'>Add Note</button>
+</div>
+         <button 
+          type='submit'
+          disabled= {nameError||contentError}
+         >Add Note</button>
        </form> 
       </div>
     );
