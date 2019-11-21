@@ -41,16 +41,46 @@ class AddNote extends Component {
       console.log(e)
     })
   } 
+
+  updateName(name) {
+    this.setState({
+      name: {
+          value: name,
+          touched: true
+      }
+  });
+}
+
+  updateContent(content){
+    this.setState({
+      content: {
+          value: content,
+          touched: true
+      }
+  });
+}
+  updateSelect(folder){
+    this.setState({
+      folder: {
+          value: folder,
+          touched: true
+      }
+  });
+}
+
   render() {
     return (
       <div>
        <form>
-         <label>Name</label>
-         <input type='text'></input>
-         <label>Content</label>
-         <textarea></textarea>
-         <label>Folder</label>
-         <select></select>
+         <label htmlFor='noteName'>Name</label>
+         <input type='text' id='noteName' onChange={e => this.updateName(e.target.value)}></input>
+
+         <label htmlFor='noteContent'>Content</label>
+         <textarea id='noteContent' onChange={e => this.updateContent(e.target.value)}></textarea>
+
+         <label htmlFor='noteFolder'>Folder</label>
+         <select id='noteFolder' onChange={e => this.updateSelect(e.target.value)}></select>
+
          <button type='submit'>Add Note</button>
        </form> 
       </div>
