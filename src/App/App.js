@@ -43,7 +43,13 @@ class App extends Component {
             folders: [...this.state.folders, folder]
         })
         console.log(this.state.folders, this.state.notes)
+    }
 
+    handleAddNote = (note) =>{
+        this.setState({
+            notes: [...this.state.notes, note]
+        })
+        console.log(this.state.folders, this.state.notes)
     }
 
     handleDeleteNote = noteId => {
@@ -93,7 +99,8 @@ class App extends Component {
             notes: this.state.notes,
             folders: this.state.folders,
             deleteNote: this.handleDeleteNote,
-            addFolder: this.handleAddFolder
+            addFolder: this.handleAddFolder,
+            addNote: this.handleAddNote
         };
         return (
             <ApiContext.Provider value={value}>

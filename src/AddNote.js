@@ -18,9 +18,12 @@ class AddNote extends Component {
         }
       }
   }
-  handleAddNote = noteName => {
+  
+  handleAddNote = () => {
     const bodyContent = {
-      name:noteName
+      name: this.state.name.value,
+      folderId: this.state.folder.value,
+      content: this.state.content.value
     }
   const options = {
     method:'POST',
@@ -35,7 +38,8 @@ class AddNote extends Component {
       else return rsp.json()
     } )
     .then(note=> {
-      this.context.addNote(note)
+      this.context.addNote(note);
+      this.props.history.push(`/`);
     })
     .catch(e => {
       console.log(e)
@@ -66,12 +70,25 @@ class AddNote extends Component {
           touched: true
       }
   });
+
+}
+
+selectOptions = () => {
+  const folderOptions = this.context.folders.map(folder => {
+    return (
+      <option value={folder.id} key={folder.id}>{folder.name}</option>
+    )
+  })
+  return folderOptions
 }
 
   render() {
     return (
       <div>
-       <form>
+       <form
+       onSubmit= {(e) =>{
+        e.preventDefault();
+        this.handleAddNote()} }>
          <label htmlFor='noteName'>Name</label>
          <input type='text' id='noteName' onChange={e => this.updateName(e.target.value)}></input>
 
@@ -79,7 +96,9 @@ class AddNote extends Component {
          <textarea id='noteContent' onChange={e => this.updateContent(e.target.value)}></textarea>
 
          <label htmlFor='noteFolder'>Folder</label>
-         <select id='noteFolder' onChange={e => this.updateSelect(e.target.value)}></select>
+        <select id='noteFolder' onChange={e => this.updateSelect(e.target.value)}>{this.selectOptions()}</select>
+
+         
 
          <button type='submit'>Add Note</button>
        </form> 
