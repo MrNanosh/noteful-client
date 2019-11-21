@@ -20,7 +20,7 @@ class AddFolder extends Component {
       else return rsp.json()
     } )
     .then(folder=> {
-      this.context.AddFolder(folder)
+      this.context.addFolder(folder)
     })
     .catch(e => {
       console.log(e)
@@ -30,7 +30,9 @@ class AddFolder extends Component {
     return (
       <div className='addFolder'>
        <form
-      onSubmit={this.handleAddFolder(folderName.value)} //do things here
+      onSubmit= {(e) =>{
+        e.preventDefault();
+        this.handleAddFolder(e.target.folderName.value)} }
        >
          <label
          htmlFor='folderName'

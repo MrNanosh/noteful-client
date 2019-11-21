@@ -39,12 +39,11 @@ class App extends Component {
     }
 
     handleAddFolder = (folder) =>{
-        let {folders,...rest} = this.state
-        console.log(folders,rest)
         this.setState({
-            folders: folders.push(folder),
-            rest
+            folders: [...this.state.folders, folder]
         })
+        console.log(this.state.folders, this.state.notes)
+
     }
 
     handleDeleteNote = noteId => {
