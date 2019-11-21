@@ -10,6 +10,7 @@ import config from '../config';
 import './App.css';
 import AddFolder from '../AddFolder';
 import AddNote from '../AddNote';
+import ErrorBoundary from '../ErrorBoundary';
 
 class App extends Component {
     state = {
@@ -105,14 +106,19 @@ class App extends Component {
         return (
             <ApiContext.Provider value={value}>
                 <div className="App">
-                    <nav className="App__nav">{this.renderNavRoutes()}</nav>
-                    <header className="App__header">
-                        <h1>
-                            <Link to="/">Noteful</Link>{' '}
-                            <FontAwesomeIcon icon="check-double" />
-                        </h1>
-                    </header>
-                    <main className="App__main">{this.renderMainRoutes()}</main>
+                    <ErrorBoundary>
+                        <nav className="App__nav">{this.renderNavRoutes()}</nav>
+                    </ErrorBoundary>
+                        <header className="App__header">
+                            <h1>
+                                <Link to="/">Noteful</Link>{' '}
+                                <FontAwesomeIcon icon="check-double" />
+                            </h1>
+                        </header>
+                    <ErrorBoundary>
+                        <main className="App__main">{this.renderMainRoutes()}</main>
+                    </ErrorBoundary>
+
                 </div>
             </ApiContext.Provider>
         );
