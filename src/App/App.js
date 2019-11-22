@@ -8,8 +8,8 @@ import NotePageMain from '../NotePageMain/NotePageMain';
 import ApiContext from '../ApiContext';
 import config from '../config';
 import './App.css';
-import AddFolder from '../AddFolder';
-import AddNote from '../AddNote';
+import AddFolder from '../AddFolder/AddFolder';
+import AddNote from '../AddNote/AddNote';
 import ErrorBoundary from '../ErrorBoundary';
 
 class App extends Component {

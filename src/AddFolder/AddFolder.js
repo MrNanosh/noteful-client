@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import config from './config';
-import ApiContext from './ApiContext';
+import config from '../config';
+import ApiContext from '../ApiContext';
+import './AddFolder.css';
 
 class AddFolder extends Component {
   handleAddFolder = folderName =>{
@@ -20,7 +21,8 @@ class AddFolder extends Component {
       else return rsp.json()
     } )
     .then(folder=> {
-      this.context.addFolder(folder)
+      this.context.addFolder(folder);
+      this.props.history.push(`/`);
     })
     .catch(e => {
       console.log(e)
@@ -42,10 +44,10 @@ class AddFolder extends Component {
          <input
           type='text'
           id='folderName'
-
+          required
          >
          </input>
-         <input type='submit'value='add Folder'></input>
+         <input id="folder-submit" type='submit' value='Add Folder'></input>
        </form> 
       </div>
     );

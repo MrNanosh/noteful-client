@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import ApiContext from './ApiContext';
-import config from './config';
+import ApiContext from '../ApiContext';
+import config from '../config';
+import './AddNote.css';
 
 
 class AddNote extends Component {
@@ -16,8 +17,7 @@ class AddNote extends Component {
           touched: false
         },
         folder: {
-          value: '',
-          touched: false
+          value: ''
         }
       }
   }
@@ -31,10 +31,18 @@ class AddNote extends Component {
   }
   
   handleAddNote = () => {
+    const dateAndTime = new Date();
+
+    //Caleb - I added line 37 to handle the case where the select option wasn't changed by the user. Before, this
+    //would trigger the onChange event and was using the default folder id set in state of ''. Now it sets the default
+    //to the first folder's id, which corresponds with the first select option.
+    const folderIdValue = (this.state.folder.value === '') ? this.context.folders[0].id : this.state.folder.value
+    
     const bodyContent = {
       name: this.state.name.value,
-      folderId: this.state.folder.value,
-      content: this.state.content.value
+      folderId: folderIdValue,
+      content: this.state.content.value,
+      modified: dateAndTime
     }
   const options = {
     method:'POST',
@@ -45,7 +53,8 @@ class AddNote extends Component {
   }
   fetch(config.API_ENDPOINT+'/notes',options)
     .then(rsp=> {
-      if (!rsp.ok) throw new Error('Whoops')
+      //if (!rsp.ok) throw new Error('Whoops')
+      if (!rsp.ok) console.log(rsp)
       else return rsp.json()
     } )
     .then(note=> {
@@ -78,7 +87,6 @@ class AddNote extends Component {
     this.setState({
       folder: {
           value: folder,
-          touched: true
       }
   });
 
@@ -98,30 +106,35 @@ selectOptions = () => {
     const contentError = this.validateContent()
     return (
       <div>
-       <form
-       onSubmit= {(e) =>{
+      <form
+        onSubmit= {(e) =>{
         e.preventDefault();
         this.handleAddNote()} }>
-      <div className='name-group'>          
-         <label htmlFor='noteName'>Name</label>
-         <input type='text' id='noteName' onChange={e => this.updateName(e.target.value)}></input>
-         <p>{this.state.name.touched && nameError}</p>
-      </div>
+        
+        <div className='name-group'>          
+          <label htmlFor='noteName'>Name</label>
+          <input type='text' id='noteName' onChange={e => this.updateName(e.target.value)}></input>
+          <p>{this.state.name.touched && nameError}</p>
+        </div>
 
-<div className='content-group'>        
-   <label htmlFor='noteContent'>Content</label>
-         <textarea id='noteContent' onChange={e => this.updateContent(e.target.value)}></textarea>
-         <p>{this.state.content.touched && contentError}</p>
-</div>
+        <div className='folder-group'>         
+          <label htmlFor='noteFolder'>Folder</label>
+          <select id='noteFolder' onChange={e => this.updateSelect(e.target.value)}>{this.selectOptions()}</select>
+        </div>
 
-<div className='folder-group'>         
-  <label htmlFor='noteFolder'>Folder</label>
-        <select id='noteFolder' onChange={e => this.updateSelect(e.target.value)}>{this.selectOptions()}</select>
-</div>
-         <button 
-          type='submit'
-          disabled= {nameError||contentError}
-         >Add Note</button>
+        <div className='content-group'>        
+          <label htmlFor='noteContent'>Content</label>
+          <p>{this.state.content.touched && contentError}</p>
+          <div>
+            <textarea id='noteContent' onChange={e => this.updateContent(e.target.value)}></textarea>
+          </div>
+        </div>
+
+        <button 
+        type='submit'
+        disabled= {nameError||contentError}
+        >Add Note</button>
+
        </form> 
       </div>
     );
