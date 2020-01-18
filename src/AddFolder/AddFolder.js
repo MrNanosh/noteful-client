@@ -20,7 +20,7 @@ class AddFolder extends Component {
     };
     fetch(
       config.API_ENDPOINT +
-        'api/folder',
+        '/api/folder',
       options
     )
       .then(rsp => {

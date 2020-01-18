@@ -20,7 +20,6 @@ export default class NoteListMain extends React.Component {
       folderId
     } = this.props.match.params;
     const { notes = [] } = this.context;
-    console.log(folderId);
     const notesForFolder = getNotesForFolder(
       notes,
       folderId
