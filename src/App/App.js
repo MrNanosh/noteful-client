@@ -71,26 +71,20 @@ class App extends Component {
         folder
       ]
     });
-    console.log(
-      this.state.folders,
-      this.state.notes
-    );
   };
 
   handleAddNote = note => {
     this.setState({
       notes: [...this.state.notes, note]
     });
-    console.log(
-      this.state.folders,
-      this.state.notes
-    );
   };
 
   handleDeleteNote = noteId => {
     this.setState({
       notes: this.state.notes.filter(
-        note => note.id !== noteId
+        note =>
+          Number(note).id !==
+          Number(noteId)
       )
     });
   };
