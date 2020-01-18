@@ -83,7 +83,7 @@ class App extends Component {
     this.setState({
       notes: this.state.notes.filter(
         note =>
-          Number(note).id !==
+          Number(note.id) !==
           Number(noteId)
       )
     });
